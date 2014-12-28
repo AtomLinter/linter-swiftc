@@ -1,14 +1,11 @@
 {
-  "name": "linter-clang",
+  "name": "linter-swiftc",
   "linter-package": true,
   "activationEvents": [],
   "main": "./lib/init",
   "version": "0.1.0",
   "description": "Lint Swift using swiftc",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/k2b6s9j/linter-swiftc"
-  },
+  "repository": "https://github.com/k2b6s9j/linter-swiftc",
   "license": "MIT",
   "engines": {
     "atom": ">0.50.0"
