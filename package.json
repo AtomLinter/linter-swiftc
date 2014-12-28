@@ -1,0 +1,13 @@
+{
+  "name": "linter-swiftc",
+  "main": "./lib/linter-swiftc",
+  "version": "0.0.1",
+  "description": "Lint Swift using swiftc",
+  "activationEvents": ["linter-swift:toggle"],
+  "repository": "https://github.com/k2b6s9j/linter-swiftc",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {}
+}
