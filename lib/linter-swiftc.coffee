@@ -1,3 +1,4 @@
+{BufferedProcess, BufferedNodeProcess} = require 'atom'
 linterPath = atom.packages.getLoadedPackage("linter").path
 Linter = require "#{linterPath}/lib/linter"
 path = require 'path'
@@ -9,7 +10,7 @@ class LinterSwiftc extends Linter
 
   # A string, list, tuple or callable that returns a string, list or tuple,
   # containing the command line (with arguments) used to lint.
-  cmd: ''
+  cmd: '-parse'
   swiftc: ''
 
   executablePath: null
@@ -28,9 +29,12 @@ class LinterSwiftc extends Linter
     super(editor)
 
   lintFile: (filePath, callback) ->
+     # save cmd to tmp
+    tmp = @cmd
+
     @swiftc = atom.config.get 'linter-swiftc.swiftcCommandName'
     if atom.inDevMode()
-      console.log 'swiftc-command: ' + @clang
+      console.log 'swiftc-command: ' + @swiftc
 
     @cmd = "#{@swiftc} #{@cmd}"
 
@@ -62,6 +66,7 @@ class LinterSwiftc extends Linter
         @processMessage(output, callback)
 
     new Process({command, args, options, stdout, stderr})
+
     #restore cmd
     @cmd = tmp;
 
