@@ -3,4 +3,5 @@ module.exports =
     swiftcCommandName: 'swiftc'
 
   activate: ->
-    console.log 'activate linter-swiftc'
+    if atom.inDevMode()
+      console.log 'activate linter-swiftc'
