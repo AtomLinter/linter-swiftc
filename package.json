@@ -5,7 +5,7 @@
   "main": "./lib/init",
   "version": "0.1.1",
   "description": "Lint Swift using swiftc",
-  "repository": "https://github.com/k2b6s9j/linter-swiftc",
+  "repository": "https://github.com/AtomLinter/linter-swiftc",
   "license": "MIT",
   "engines": {
     "atom": ">0.50.0"
