@@ -1,4 +1,4 @@
-linter-ruby
+linter-swiftc
 =========================
 
 This linter plugin for [Linter](https://github.com/AtomLinter/Linter) provides an interface to Swift's builtin syntax analysis. It will be used with files that have the `Swift` syntax.
