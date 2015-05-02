@@ -1,7 +1,6 @@
 {
   "name": "linter-swiftc",
   "linter-package": true,
-  "activationEvents": [],
   "main": "./lib/init",
   "version": "0.2.2",
   "description": "Lint Swift using swiftc",
