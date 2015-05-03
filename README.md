@@ -14,7 +14,8 @@ $ apm install linter-swiftc
 ```
 
 ## Settings
-There are currently no settings to configure.
+Using the Settings for the Package you may change the state of any of these properties to change how files are linted:
+- `Live Linting` when enabled lints the current state of the current file in a temporary directory, this breaks relative requirements, but this mode is useful if writing a script. When disabled the file is linted in the directory it's saved in at save and opening, keeping in tact relative requirements.
 
 ## Contributing
 If you would like to contribute enhancements or fixes, please do the following:

@@ -1,6 +1,8 @@
 module.exports =
-  configDefaults:
-    swiftcCommandName: 'swiftc'
+  config:
+    liveLinting:
+      type: 'boolean'
+      default: false
 
   activate: ->
     if atom.inDevMode()
