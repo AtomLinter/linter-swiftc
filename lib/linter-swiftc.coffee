@@ -16,6 +16,7 @@ module.exports = LinterSwiftc =
     {
       scopes: @scopes
       lint: @lint
+      lintOnFly: true
     }
 
   lint: (TextEditor)->
