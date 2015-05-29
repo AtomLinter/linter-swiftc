@@ -24,8 +24,7 @@ module.exports = LinterSwiftc =
     Path = require 'path'
     XRegExp = require('xregexp').XRegExp
 
-    regex = XRegExp('.+:(?<line>\\d+):.+:
-     .*((?<error>error)|(?<warning>warning)): (?<message>.*)')
+    regex = XRegExp('(?<file>\\S+):(?<line>\\d+):(?<column>\\d+): ((?<error>error)|(?<warning>warning)): (?<message>.*)')
 
     return new Promise (Resolve)->
       FilePath = TextEditor.getPath()
