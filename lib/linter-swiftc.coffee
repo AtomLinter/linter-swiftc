@@ -19,26 +19,27 @@ module.exports = LinterSwiftc =
       lintOnFly: true
     }
 
-  lint: (TextEditor)->
+  lint: (TextEditor) ->
     CP = require 'child_process'
     Path = require 'path'
     XRegExp = require('xregexp').XRegExp
 
-    regex = XRegExp('(?<file>\\S+):(?<line>\\d+):(?<column>\\d+): ((?<error>error)|(?<warning>warning)): (?<message>.*)')
+    regex = XRegExp('(?<file>\\S+):(?<line>\\d+):(?<column>\\d+):
+     ((?<error>error)|(?<warning>warning)): (?<message>.*)')
 
-    return new Promise (Resolve)->
+    return new Promise (Resolve) ->
       FilePath = TextEditor.getPath()
       return unless FilePath # Files that have not be saved
       Data = []
       Process = CP.exec("swiftc -parse #{TextEditor.getTitle()}",
         {cwd: Path.dirname(FilePath)})
-      Process.stderr.on 'data', (data)-> Data.push(data.toString())
+      Process.stderr.on 'data', (data) -> Data.push(data.toString())
       Process.on 'close', ->
         Content = []
         for line in Data
           Content.push XRegExp.exec(line, regex)
         ToReturn = []
-        Content.forEach (regex)->
+        Content.forEach (regex) ->
           if regex
             if regex.error
               ToReturn.push(
