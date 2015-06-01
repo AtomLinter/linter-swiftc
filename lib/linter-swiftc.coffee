@@ -16,7 +16,7 @@ module.exports = LinterSwiftc =
     {
       scopes: @scopes
       lint: @lint
-      lintOnFly: true
+      lintOnFly: false
     }
 
   lint: (TextEditor) ->
@@ -45,14 +45,14 @@ module.exports = LinterSwiftc =
               ToReturn.push(
                 Type: 'Error',
                 Message: regex.message,
-                File: regex.file
+                File: FilePath
                 Position: [[regex.line, regex.column], [regex.line, regex.column]]
               )
             if regex.warning
               ToReturn.push(
                 Type: 'Warning',
                 Message: regex.message,
-                File: regex.file
+                File: FilePath
                 Position: [[regex.line, regex.column], [regex.line, regex.column]]
               )
         Resolve(ToReturn)
