@@ -43,14 +43,14 @@ module.exports = LinterSwiftc =
           if regex
             if regex.error
               ToReturn.push(
-                type: 'Error',
+                type: 'error',
                 message: regex.message,
                 file: FilePath
                 position: [[regex.line, regex.column], [regex.line, regex.column]]
               )
             if regex.warning
               ToReturn.push(
-                type: 'Warning',
+                type: 'warning',
                 message: regex.message,
                 file: FilePath
                 position: [[regex.line, regex.column], [regex.line, regex.column]]
