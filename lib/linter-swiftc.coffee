@@ -6,8 +6,7 @@ module.exports = LinterSwiftc =
   activate: ->
     console.log 'activate linter-swiftc'# if atom.inDevMode()
     unless atom.packages.getLoadedPackages 'linter-plus'
-      @showError '[Linter+ swiftc] `linter-plus` package not found,
-       please install it'
+      @showError '[linter-swiftc] `linter-plus` package not found, please install it'
 
   showError: (message = '') ->
     atom.notifications.addError message
@@ -21,17 +20,18 @@ module.exports = LinterSwiftc =
 
   lint: (TextEditor) ->
     CP = require 'child_process'
-    Path = require 'path'
+    path = require 'path'
     XRegExp = require('xregexp').XRegExp
 
-    regex = XRegExp('(?<file>\\S+):(?<line>\\d+):(?<column>\\d+): (?<type>\\w+): (?<message>.*)')
+    regex = XRegExp('(?<file>\\S+):(?<line>\\d+):(?<column>\\d+):\\s+(?<type>\\w+):\\s+(?<message>.*)')
 
     return new Promise (Resolve) ->
-      FilePath = TextEditor.getPath()
-      return unless FilePath # Files that have not be saved
+      filePath = TextEditor.getPath()
+      file = TextEditor.getTitle()
+      cwd = path.dirname(TextEditor.getPath())
+      return unless filePath # Files that have not be saved
       Data = []
-      Process = CP.exec("swiftc -parse #{TextEditor.getTitle()}",
-        {cwd: Path.dirname(FilePath)})
+      Process = CP.exec("swiftc -parse #{file}", {cwd: cwd})
       Process.stderr.on 'data', (data) -> Data.push(data.toString())
       Process.on 'close', ->
         Content = []
@@ -43,7 +43,7 @@ module.exports = LinterSwiftc =
             ToReturn.push(
               type: regex.type,
               message: regex.message,
-              file: FilePath
+              file: path.join(cwd, regex.file).normalize()
               position: [[regex.line, regex.column], [regex.line, regex.column]]
             )
         Resolve(ToReturn)
