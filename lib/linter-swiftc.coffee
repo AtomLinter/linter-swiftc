@@ -24,8 +24,7 @@ module.exports = LinterSwiftc =
     Path = require 'path'
     XRegExp = require('xregexp').XRegExp
 
-    regex = XRegExp('(?<file>\\S+):(?<line>\\d+):(?<column>\\d+):
-     ((?<error>error)|(?<warning>warning)): (?<message>.*)')
+    regex = XRegExp('(?<file>\\S+):(?<line>\\d+):(?<column>\\d+): (?<type>\\w+): (?<message>.*)')
 
     return new Promise (Resolve) ->
       FilePath = TextEditor.getPath()
@@ -41,18 +40,10 @@ module.exports = LinterSwiftc =
         ToReturn = []
         Content.forEach (regex) ->
           if regex
-            if regex.error
-              ToReturn.push(
-                type: 'error',
-                message: regex.message,
-                file: FilePath
-                position: [[regex.line, regex.column], [regex.line, regex.column]]
-              )
-            if regex.warning
-              ToReturn.push(
-                type: 'warning',
-                message: regex.message,
-                file: FilePath
-                position: [[regex.line, regex.column], [regex.line, regex.column]]
-              )
+            ToReturn.push(
+              type: regex.type,
+              message: regex.message,
+              file: FilePath
+              position: [[regex.line, regex.column], [regex.line, regex.column]]
+            )
         Resolve(ToReturn)
