@@ -1,5 +1,10 @@
 linter-swiftc
-=========================
+=============
+
+[![travis.ci build](https://img.shields.io/travis/AtomLinter/linter-swiftc.svg?style=flat-square)](https://travis-ci.org/AtomLinter/linter-swiftc)
+[![atom package manager download counter](https://img.shields.io/apm/dm/linter-swiftc.svg?style=flat-square)](https://atom.io/packages/linter-swiftc)
+[![atom package manager version counter](https://img.shields.io/apm/v/vim-mode.svg?style=flat-square)](https://atom.io/packages/linter-swiftc)
+[![atom package manager license indicator](https://img.shields.io/apm/l/vim-mode.svg?style=flat-square)](https://atom.io/packages/linter-swiftc)
 
 This linter plugin for [Linter](https://github.com/AtomLinter/Linter) provides an interface to Swift's builtin syntax analysis. It will be used with files that have the `Swift` syntax.
 
