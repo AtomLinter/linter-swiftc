@@ -11,12 +11,12 @@ module.exports = LinterSwiftc =
   showError: (message = '') ->
     atom.notifications.addError message
 
-  provideLinter: ->
-    {
-      scopes: @scopes
-      lint: @lint
-      lintOnFly: false
-    }
+  provideLinter: -> {
+    grammarScopes: @scopes
+    scope: 'file'
+    lint: @lint
+    lintOnFly: false
+  }
 
   lint: (TextEditor) ->
     CP = require 'child_process'
@@ -36,14 +36,15 @@ module.exports = LinterSwiftc =
       Process.on 'close', ->
         Content = []
         for line in Data
+          console.log "linter-swiftc command output: #{line}" if atom.inDevMode()
           Content.push XRegExp.exec(line, regex)
         ToReturn = []
         Content.forEach (regex) ->
           if regex
             ToReturn.push(
               type: regex.type,
-              message: regex.message,
-              file: path.join(cwd, regex.file).normalize()
-              position: [[regex.line, regex.column], [regex.line, regex.column]]
+              text: regex.message,
+              filePath: path.join(cwd, regex.file).normalize()
+              range: [[regex.line - 1, regex.column - 1], [regex.line - 1, regex.column - 1]]
             )
         Resolve(ToReturn)
