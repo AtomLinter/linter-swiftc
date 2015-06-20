@@ -1,3 +1,6 @@
+child_process = require 'child_process'
+path = require 'path'
+
 module.exports = LinterSwiftc =
   activate: ->
     unless atom.packages.getLoadedPackages 'linter-plus'
@@ -11,9 +14,6 @@ module.exports = LinterSwiftc =
   }
 
   lint: (TextEditor) ->
-    child_process = require 'child_process'
-    path = require 'path'
-
     # Sample of conforming text:
     #   type_assignment_error.swift:1:17: error: 'Int' is not convertible to 'String'
     regex = ///
@@ -25,7 +25,6 @@ module.exports = LinterSwiftc =
       \s+     #A space.
       (.*)    #A message explaining the issue at hand.
     ///
-
     return new Promise (Resolve) ->
       if TextEditor.getPath()
         file = path.basename TextEditor.getPath()
