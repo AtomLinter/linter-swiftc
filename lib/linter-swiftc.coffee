@@ -23,7 +23,17 @@ module.exports = LinterSwiftc =
     path = require 'path'
     XRegExp = require('xregexp').XRegExp
 
-    regex = XRegExp('(?<file>\\S+):(?<line>\\d+):(?<column>\\d+):\\s+(?<type>\\w+):\\s+(?<message>.*)')
+    # Sample of conforming text:
+    #   type_assignment_error.swift:1:17: error: 'Int' is not convertible to 'String'
+    regex = ///
+      (\S+):  #The file with issue.
+      (\d+):  #The line number with issue.
+      (\d+):  #The column where the issue begins.
+      \s+     #A space.
+      (\w+):  #The type of issue being reported.
+      \s+     #A space.
+      (.*)    #A message explaining the issue at hand.
+    ///
 
     return new Promise (Resolve) ->
       filePath = TextEditor.getPath()
@@ -37,14 +47,14 @@ module.exports = LinterSwiftc =
         Content = []
         for line in Data
           console.log "linter-swiftc command output: #{line}" if atom.inDevMode()
-          Content.push XRegExp.exec(line, regex)
+          Content.push line.match(regex)[1..5] if line.match regex
         ToReturn = []
         Content.forEach (regex) ->
           if regex
             ToReturn.push(
-              type: regex.type,
-              text: regex.message,
-              filePath: path.join(cwd, regex.file).normalize()
-              range: [[regex.line - 1, regex.column - 1], [regex.line - 1, regex.column - 1]]
+              type: regex[3],
+              text: regex[4],
+              filePath: path.join(cwd, regex[0]).normalize()
+              range: [[regex[1] - 1, regex[2] - 1], [regex[1] - 1, regex[2] - 1]]
             )
         Resolve(ToReturn)
