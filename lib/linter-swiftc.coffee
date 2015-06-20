@@ -1,15 +1,10 @@
 module.exports = LinterSwiftc =
-  # The syntax that the linter handles. May be a string or
-  # list/tuple of strings. Names should be all lowercase.
-  scopes: ['source.swift']
-
   activate: ->
-    console.log 'activate linter-swiftc'# if atom.inDevMode()
     unless atom.packages.getLoadedPackages 'linter-plus'
       @atom.notifications.addError '[linter-swiftc] `linter-plus` package not found, please install it'
 
   provideLinter: -> {
-    grammarScopes: @scopes
+    grammarScopes: ['source.swift']
     scope: 'file'
     lint: @lint
     lintOnFly: false
@@ -33,23 +28,26 @@ module.exports = LinterSwiftc =
 
     return new Promise (Resolve) ->
       if TextEditor.getPath()
-        file = TextEditor.getTitle()
-        cwd = path.dirname(TextEditor.getPath())
+        file = path.basename TextEditor.getPath()
+        cwd = path.dirname TextEditor.getPath()
         data = []
         process = child_process.exec "swiftc -parse #{file}", {cwd: cwd}
         process.stderr.on 'data', (d) -> data.push d.toString()
         process.on 'close', ->
-          content = []
+          toReturn = []
           for line in data
             console.log "linter-swiftc command output: #{line}" if atom.inDevMode()
-            content.push line.match(regex)[1..5] if line.match regex
-          toReturn = []
-          content.forEach (regex) ->
-            if regex
+            if line.match regex
+              match = line.match(regex)[1..5]
+              file = match[0]
+              line = match[1]
+              column = match[2]
+              type = match[3]
+              message = match[4]
               toReturn.push(
-                type: regex[3],
-                text: regex[4],
-                filePath: path.join(cwd, regex[0]).normalize()
-                range: [[regex[1] - 1, regex[2] - 1], [regex[1] - 1, regex[2] - 1]]
+                type: type,
+                text: message,
+                filePath: path.join(cwd, file).normalize()
+                range: [[line - 1, column - 1], [line - 1, column - 1]]
               )
           Resolve(toReturn)
