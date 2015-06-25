@@ -2,7 +2,7 @@
   "name": "linter-swiftc",
   "activationCommands": [],
   "main": "./lib/linter-swiftc",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Lint Swift using swiftc",
   "repository": "https://github.com/AtomLinter/linter-swiftc",
   "license": "MIT",
