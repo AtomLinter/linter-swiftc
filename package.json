@@ -1,8 +1,7 @@
 {
   "name": "linter-swiftc",
-  "linter-package": true,
   "activationCommands": [],
-  "main": "./lib/init",
+  "main": "./lib/linter-swiftc",
   "version": "1.0.0",
   "description": "Lint Swift using swiftc",
   "repository": "https://github.com/AtomLinter/linter-swiftc",
@@ -10,5 +9,11 @@
   "engines": {
     "atom": ">0.50.0"
   },
-  "dependencies": {}
+  "providedServices": {
+    "linter": {
+      "versions": {
+        "1.0.0": "provideLinter"
+      }
+    }
+  }
 }
