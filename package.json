@@ -1,7 +1,7 @@
 {
   "name": "linter-swiftc",
   "main": "./lib/linter-swiftc",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
   "description": "Lint Swift using swiftc",
   "repository": "https://github.com/AtomLinter/linter-swiftc",
