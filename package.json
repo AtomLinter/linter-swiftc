@@ -1,6 +1,5 @@
 {
 	"name": "linter-swiftc",
-	"activationCommands": [],
 	"main": "./lib/linter-swiftc",
 	"version": "2.0.0",
 	"description": "Lint Swift using swiftc",
