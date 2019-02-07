@@ -1,11 +1,4 @@
 module.exports = LinterSwiftc =
-  config:
-    compilerExecPath:
-      title: 'Compiler Executable Path'
-      description: 'The path of the compiler executable, with binary name. By
-                    default will use `swiftc` from your path.'
-      type: 'string'
-      default: 'swiftc'
   activate: ->
     # Show the user an error if they do not have the appropriate
     #   Swift Language package from Atom Package Manager installed.
@@ -33,8 +26,9 @@ module.exports = LinterSwiftc =
     LinterProvider = require './provider'
     provider = new LinterProvider()
     return {
+      name: 'swiftc'
       grammarScopes: ['source.swift']
       scope: 'file'
       lint: provider.lint
-      lintOnFly: false
+      lintsOnChange: false
     }

@@ -1,5 +1,12 @@
 path = require 'path'
+helpers = require 'atom-linter';
 child_process = require 'child_process'
+
+VALID_SEVERITY = ['error', 'warning', 'info']
+
+getSeverity = (givenSeverity) ->
+  severity = givenSeverity.toLowerCase()
+  return if severity not in VALID_SEVERITY then 'warning' else severity
 
 module.exports = class LinterProvider
   regex = ///
@@ -18,10 +25,10 @@ module.exports = class LinterProvider
 
   # This is based on code taken right from the linter-plus rewrite
   #   of `linter-crystal`.
-  lint: (TextEditor) ->
+  lint: (textEditor) ->
     new Promise (Resolve) ->
-      file = path.basename TextEditor.getPath()
-      cwd = path.dirname TextEditor.getPath()
+      file = path.basename textEditor.getPath()
+      cwd = path.dirname textEditor.getPath()
       data = []
       command = getCommandWithFile file
       console.log "Swift Linter Command: #{command}" if atom.inDevMode()
@@ -32,11 +39,11 @@ module.exports = class LinterProvider
         for line in data
           console.log "Swift Linter Provider: #{line}" if atom.inDevMode()
           if line.match regex
-            [file, line, column, type, message] = line.match(regex)[1..5]
-            toReturn.push(
-              type: type,
-              text: message,
-              filePath: path.join(cwd, file).normalize()
-              range: [[line - 1, column - 1], [line - 1, column - 1]]
-            )
+            [file, line, column, severity, excerpt] = line.match(regex)[1..5]
+            toReturn.push
+              severity: getSeverity(severity)
+              excerpt: excerpt
+              location:
+                file: path.join(cwd, file).normalize()
+                position: helpers.generateRange(textEditor, Number.parseInt(line, 10) - 1, Number.parseInt(column, 10) - 1)
         Resolve toReturn
