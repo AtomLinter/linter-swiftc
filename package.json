@@ -17,10 +17,10 @@
     }
   },
   "dependencies": {
-    "atom-linter": "^10.0.0"
+    "atom-linter": "10.0.0"
   },
   "devDependencies": {
-    "coffeelint": "^1.15.0"
+    "coffeelint": "1.16.2"
   },
   "package-deps": [
     "linter:2.0.0"
