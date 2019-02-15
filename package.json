@@ -20,7 +20,10 @@
     "atom-linter": "10.0.0"
   },
   "devDependencies": {
-    "coffeelint": "1.16.2"
+    "coffeelint": "2.1.0"
+  },
+  "scripts": {
+    "lint": "coffeelint ."
   },
   "package-deps": [
     "linter:2.0.0"

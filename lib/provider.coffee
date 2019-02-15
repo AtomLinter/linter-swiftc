@@ -1,5 +1,5 @@
 path = require 'path'
-helpers = require 'atom-linter';
+helpers = require 'atom-linter'
 child_process = require 'child_process'
 
 VALID_SEVERITY = ['error', 'warning', 'info']
@@ -40,10 +40,12 @@ module.exports = class LinterProvider
           console.log "Swift Linter Provider: #{line}" if atom.inDevMode()
           if line.match regex
             [file, line, column, severity, excerpt] = line.match(regex)[1..5]
+            line = Number.parseInt(line, 10) - 1
+            column = Number.parseInt(column, 10) - 1
             toReturn.push
               severity: getSeverity(severity)
               excerpt: excerpt
               location:
                 file: path.join(cwd, file).normalize()
-                position: helpers.generateRange(textEditor, Number.parseInt(line, 10) - 1, Number.parseInt(column, 10) - 1)
+                position: helpers.generateRange(textEditor, line, column)
         Resolve toReturn
