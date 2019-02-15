@@ -32,6 +32,21 @@
       }
     }
   },
+  "renovate": {
+    "extends": [
+      "config:base"
+    ],
+    "semanticCommits": true,
+    "rangeStrategy": "pin",
+    "packageRules": [
+      {
+        "packagePatterns": [
+          "^eslint"
+        ],
+        "groupName": "ESLint packages"
+      }
+    ]
+  },
   "coffeelintConfig": {
     "max_line_length": {
       "value": 120,
